@@ -11,7 +11,7 @@ pipeline {
         stage('Build') {
             agent {
                 docker {  
-                image 'node:18-alpine'
+                image 'xyz'
                 reuseNode true
                 }
             }
@@ -28,7 +28,7 @@ pipeline {
         stage('Test') {
             agent {
                 docker {  
-                image 'node:18-alpine'
+                image 'xyz'
                 reuseNode true
                 }
             }
@@ -44,17 +44,17 @@ pipeline {
         stage('Deploying staging') {
             agent {
                 docker {  
-                image 'node:18-alpine'
+                image 'xyz'
                 reuseNode true
                 }
             }
             steps {
                 sh '''
-                npm install netlify-cli node-jq
-                node_modules/.bin/netlify --version
+                
+                netlify --version
                 echo " production environment deployed site ID= $NETLIFY_SITE_ID "
-                node_modules/.bin/netlify deploy --dir=build --json > deploy-output.json
-                node_modules/.bin/node-jq -r '.deploy_url' deploy-output.json
+                netlify deploy --dir=build --json > deploy-output.json
+                node-jq -r '.deploy_url' deploy-output.json
                 '''
             
             }
@@ -71,16 +71,16 @@ pipeline {
         stage('Deploy') {
             agent {
                 docker {  
-                image 'node:18-alpine'
+                image 'xyz'
                 reuseNode true
                 }
             }
             steps {
                 sh '''
-                npm install netlify-cli
-                node_modules/.bin/netlify --version
+                
+                netlify --version
                 echo " production environment deployed site ID= $NETLIFY_SITE_ID "
-                node_modules/.bin/netlify deploy --dir=build --prod
+                netlify deploy --dir=build --prod
                 '''
             
             }
